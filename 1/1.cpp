@@ -3,7 +3,7 @@ using namespace std;
 
 char uniqtext[26]; // Global variable
 
-//Step 1
+//Plaintext<-file
 string readPlainText()
 {
 	ifstream fin;
@@ -16,29 +16,22 @@ string readPlainText()
 	return ptext;
 }
 
+//cipertext->file
 void writecipher(char ctxt[]){
 	ofstream fout;
 	fout.open("ciphertext.txt");
 	fout << ctxt;
 	fout.close();	
 }
-//Step 2
-void addchar(char a[]){
-	char x='a';
-	for(int i=0;i<26;i++){
-		a[i]=x;
-		x++;
-	}
 
-}
-
-//Step 3
+//random=0-26 used to generate UNIQUE random number
 void AddRandNum(int random[]){
 	for(int i=0;i<26;i++){
 		random[i]=i;
 	}
 }
 
+//Random Number in range 0-25
 int rand26(){
     return(rand() % 26); 
 }
@@ -77,27 +70,28 @@ void encrypt(char ciphertext[],string plaintext, char alpha[]){
 	}
 	ciphertext[i]='\0';
 }
+
 int main()
 {
-	int i=0;
-	char alpha[52];
-	int random[26];
-	char ch;
+	int i=0,random[26];
+	char alpha[52],ch,ciphertext[200];
 	srand(time(NULL)) ;
-	char ciphertext[200];
-	//Step 1
+	
+	//Read txt from file
 	string plaintext = readPlainText() ;
 	cout<<"Plain text = \t" << plaintext << endl;
 
-	//Step 2
-	// addchar(alpha);
-	//Step 3
+	//Generated Random Number
 	AddRandNum(random);
+
+	//Generated Key
 	keyspaceGen(alpha,random);
+
+	//Convert plaintext->cipertext
 	encrypt(ciphertext,plaintext,alpha);
 	cout<<"Cipher Text=\t"<<ciphertext<<endl<<endl;
 
+	//Cipertext->File
 	writecipher(ciphertext);
-
 	cout<<"Cipher text written on ciphertext.txt";
 }
