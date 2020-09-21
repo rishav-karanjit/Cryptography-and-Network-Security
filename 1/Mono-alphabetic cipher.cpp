@@ -3,7 +3,7 @@ using namespace std;
 
 char uniqtext[26]; // Global variable
 
-//Plaintext<-file
+//file->Plaintxt
 string readPlainText()
 {
 	ifstream fin;
@@ -71,6 +71,29 @@ void encrypt(char ciphertext[],string plaintext, char alpha[]){
 	ciphertext[i]='\0';
 }
 
+/* frequency = (no of occurance of a character / length of plaintext) */
+/* show frequency of all characters of plain text and cipher text */
+void showfrequencey(string plaintext,string ciphertext){
+	float ptxtcnt[26]={0.0};
+	int ctxtcnt[26]={0};
+	float f;
+	char p,c;
+	for(int i=0;i<plaintext.length();i++){
+		ptxtcnt[plaintext[i]-97]++;
+	}
+	printf("\nFrequency\tPlainText characters\tCipherText characters\n");
+	for(int i=0;i<plaintext.length();i++){
+		p=plaintext[i];
+		c=ciphertext[i];
+		if(ptxtcnt[plaintext[i]-97]!=0.0){
+			f=ptxtcnt[plaintext[i]-97]/plaintext.length();
+			ptxtcnt[plaintext[i]-97]=0.0;
+			printf("\n%.1f\t\t%c\t\t%c",f,p,c);
+		}
+		
+	}
+}
+
 int main()
 {
 	int i=0,random[26];
@@ -94,4 +117,5 @@ int main()
 	//Cipertext->File
 	writecipher(ciphertext);
 	cout<<"Cipher text written on ciphertext.txt";
+	showfrequencey(plaintext,ciphertext);
 }
