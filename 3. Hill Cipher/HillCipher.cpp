@@ -4,46 +4,55 @@
 using namespace std;
 
 int a[50];
-int a2x2[25][25];
+int a2x2[25][3];
 int key[3][3];
 int r,c;
 
 //Changed plain txt to number
-void Txt_to_num(string str){
+void Txt_to_num(string str,int row){
+	int itr=0;
 	for (int i = 0; i < str.size(); i++){
     	a[i] = str[i]-97;
 	}
-}
-
-//Converted matrix a to ? * 2 form
-void convert_two_mat(int s){
-	int r,c;
-	for(int i=0;i<s;i++){
-		if((i+1)%2)
-			r++;
-		r=0;
-		c=0;
-		a2x2[r][c++]=a[i];
-		// cout<<a2x2[r][c-1];
-	}
-	if(c==1){
-		a2x2[r][c]=999;
-		// cout<<a2x2[r][c];
+	for(int i=0;i<row;i++){
+		for(int j=0;j<r;j++){
+			if(itr == str.size()){
+				a2x2[i][j] = 9999;
+				// cout<<a2x2[i][j];
+			}
+			else{
+				a2x2[i][j] = a[itr++];
+				// cout<<a2x2[i][j];
+			}
+		}
 	}
 }
 
-int findDet(int a[3][3],int n)
+string num_to_txt(int a2x2[25][3],int n){
+	string res="";
+	for(int i=0;i<25;i++){
+		for(int j=0;j<r;j++){
+			res.push_back(a2x2[i][j]+97);
+			n--;
+			if(n==0){
+				return res;
+			}
+		}
+	}
+	return res;
+}
+
+int findDet(int mat[3][3],int n)
 {
 	int det;
 	if(n == 2)
 	{
-		det = a[0][0] * a[1][1] - a[0][1] * a[1][0] ;
+		det = mat[0][0] * mat[1][1] - mat[0][1] * mat[1][0] ;
 	}
 	else if (n == 3)
 	{
-		det = a[0][0]*( a[1][1]* a[2][2] - a[1][2] * a[2][1])  - a[0][1] * ( a[1][0] * a[2][2] - a[2][0] * a[1][2] ) + a[0][2] * (a[1][0] * a[2][1] - a[1][1] * a[2][0]);
+		det = mat[0][0]*( mat[1][1]* mat[2][2] - mat[1][2] * mat[2][1])  - mat[0][1] * ( mat[1][0] * mat[2][2] - mat[2][0] *mat[1][2] ) + mat[0][2] * (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]);
 	}
-
 	else det = 0 ; // invalid input
 	
 	return(det % 26);
@@ -128,30 +137,76 @@ void find_adjoint(int adjoint[3][3], int order){
 						cofactor[i][j] = -cofactor[i][j];
 			}
 		}
-
 	}
-
 	//transpose
 	for (int i = 0; i < order; ++i)
       	for (int j = 0; j < order; ++j) {
         	adjoint[j][i] = cofactor[i][j];
       	}
 }
+
+void multiply(int P[][3],int k[3][3],int n) 
+{
+	int zero,one;
+	if(r==2){
+		for(int i=0;i<n/2;i++){
+			zero = P[i][0] * k[0][0] + P[i][1] * k[0][1];
+
+			P[i][1] = P[i][0] * k[1][0] + P[i][1] * k[1][1];
+			P[i][0] = zero;
+
+			P[i][0] = P[i][0] % 26;
+			P[i][1] = P[i][1] % 26;	
+		}
+	}
+	else{
+		for(int i=0;i<n/2;i++){
+			zero = P[i][0] * k[0][0] + P[i][1] * k[0][1] +P[i][2] * k[0][2];
+			one = P[i][0] * k[1][0] + P[i][1] * k[1][1] +P[i][2] * k[1][2];
+			P[i][2] = P[i][0] * k[2][0] + P[i][1] * k[2][1] +P[i][2] * k[2][2];
+			
+			P[i][0] = zero;
+			P[i][1] = one;
+			for(int q=0;q<3;q++)
+				while(P[i][q]<0)
+					P[i][q]+=26;
+			P[i][0] = P[i][0] % 26;
+			P[i][1] = P[i][1] % 26;	
+			P[i][2] = P[i][2] % 26;
+		}		
+	}
+}
+
+void encryption(int a2x2[][3],int key[3][3],int n){
+	multiply(a2x2,key,n);
+	cout<<"Encrypted text:"<<num_to_txt(a2x2,n)<<endl;
+}
+
+void decryption(int a2x2[][3],int keyin[3][3], int n){
+	multiply(a2x2,keyin,n);
+	cout<<"Decrypted text:"<<num_to_txt(a2x2,n)<<endl;
+}
+
 int main(){
-	string p;
 	int i,j,inverse;
+	string p;
 	cout<<"Enter plain text"<<endl;
 	cin>>p;
-	
-	Txt_to_num(p);
-
-	// for(i=0;i<p.size();i++){
-	// 	cout<<a[i];
-	// }
-	convert_two_mat(p.size());
 
 	cout<<"Enter row and column of key matrix";
 	cin>>r>>c;
+	
+	// int P[25][3];
+	int n = p.length();
+	int l = p.length();
+	if(n%2 && r==2)
+		n++;
+
+	if(r==3)
+		while(n%3)
+			n++;
+	int row = (p.length())/r;
+	Txt_to_num(p,row);
 
 	cout<<"Enter Key:"<<endl;
 	for(i=0;i<r;i++)
@@ -159,10 +214,16 @@ int main(){
 			cin>>key[i][j];
 
 	verify_2x2(r,c);
+
+	encryption(a2x2,key,l);
 	inverse=FindInverse(findDet(key,r));
 
 	int adjoint[3][3];
 	find_adjoint(adjoint,r);
 
+	for(i=0;i<r;i++)
+		for(j=0;j<r;j++)
+			adjoint[i][j] = (adjoint[i][j] * inverse) % 26;
 
+	decryption(a2x2,adjoint,l);
 }
