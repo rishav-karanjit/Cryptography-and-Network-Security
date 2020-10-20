@@ -8,6 +8,14 @@ int a2x2[25][3];
 int key[3][3];
 int r,c;
 
+void print_mat(int a[][3],int p, int q){
+	for(int i=0;i<p;i++){
+		for(int j=0;j<q;j++)
+			cout<<a[i][j]<<"\t";
+		cout<<endl;
+	}
+}
+
 //Changed plain txt to number
 void Txt_to_num(string str,int row){
 	int itr=0;
@@ -54,7 +62,6 @@ int findDet(int mat[3][3],int n)
 		det = mat[0][0]*( mat[1][1]* mat[2][2] - mat[1][2] * mat[2][1])  - mat[0][1] * ( mat[1][0] * mat[2][2] - mat[2][0] *mat[1][2] ) + mat[0][2] * (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]);
 	}
 	else det = 0 ; // invalid input
-	
 	return(det % 26);
 }
 
@@ -114,7 +121,7 @@ void SelectTempMat(int temp[3][3],int r,int c){
 }
 
 void find_adjoint(int adjoint[3][3], int order){
-	int cofactor[order][order];
+	int cofactor[3][3];
 	if(order==2){
 		cofactor[0][0] = key[1][1];
 		cofactor[0][1] = key[1][0];
@@ -138,10 +145,12 @@ void find_adjoint(int adjoint[3][3], int order){
 			}
 		}
 	}
+	cout<<"The cofactor is"<<endl;
+	print_mat(cofactor,order,order);
 	//transpose
 	for (int i = 0; i < order; ++i)
       	for (int j = 0; j < order; ++j) {
-        	adjoint[j][i] = cofactor[i][j];
+        	adjoint[j][i] = cofactor[i][j];	
       	}
 }
 
@@ -216,14 +225,25 @@ int main(){
 	verify_2x2(r,c);
 
 	encryption(a2x2,key,l);
+
+	//Decryption
+
 	inverse=FindInverse(findDet(key,r));
 
+	cout<<"The inverse is"<<inverse<<endl;
 	int adjoint[3][3];
 	find_adjoint(adjoint,r);
 
+	printf("The Adjoint Matrix is:\n");
+	print_mat(adjoint,r,r);
+
 	for(i=0;i<r;i++)
-		for(j=0;j<r;j++)
+		for(j=0;j<r;j++){
 			adjoint[i][j] = (adjoint[i][j] * inverse) % 26;
+		}
+
+	cout<<"K^-1="<<endl;
+	print_mat(adjoint,r,r);
 
 	decryption(a2x2,adjoint,l);
 }
