@@ -62,6 +62,8 @@ int findDet(int mat[3][3],int n)
 		det = mat[0][0]*( mat[1][1]* mat[2][2] - mat[1][2] * mat[2][1])  - mat[0][1] * ( mat[1][0] * mat[2][2] - mat[2][0] *mat[1][2] ) + mat[0][2] * (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]);
 	}
 	else det = 0 ; // invalid input
+	cout<<"Det = "<<det<<endl;
+	cout<<"Det = "<<det%26<<endl;
 	return(det % 26);
 }
 
@@ -124,8 +126,8 @@ void find_adjoint(int adjoint[3][3], int order){
 	int cofactor[3][3];
 	if(order==2){
 		cofactor[0][0] = key[1][1];
-		cofactor[0][1] = key[1][0];
-		cofactor[1][0] = key[0][1];
+		cofactor[0][1] = -key[1][0];
+		cofactor[1][0] = -key[0][1];
 		cofactor[1][1] = key[0][0];
 	}
 	else{
@@ -166,6 +168,9 @@ void multiply(int P[][3],int k[3][3],int n)
 
 			P[i][0] = P[i][0] % 26;
 			P[i][1] = P[i][1] % 26;	
+			for(int q=0;q<2;q++)
+				while(P[i][q]<0)
+					P[i][q]+=26;
 		}
 	}
 	else{
@@ -230,7 +235,7 @@ int main(){
 
 	inverse=FindInverse(findDet(key,r));
 
-	cout<<"The inverse is"<<inverse<<endl;
+	cout<<"The inverse is "<<inverse<<endl;
 	int adjoint[3][3];
 	find_adjoint(adjoint,r);
 
