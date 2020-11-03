@@ -14,6 +14,7 @@ void print_mat(int a[][3],int p, int q){
 			cout<<a[i][j]<<"\t";
 		cout<<endl;
 	}
+	cout<<endl;
 }
 
 //Changed plain txt to number
@@ -62,8 +63,6 @@ int findDet(int mat[3][3],int n)
 		det = mat[0][0]*( mat[1][1]* mat[2][2] - mat[1][2] * mat[2][1])  - mat[0][1] * ( mat[1][0] * mat[2][2] - mat[2][0] *mat[1][2] ) + mat[0][2] * (mat[1][0] * mat[2][1] - mat[1][1] * mat[2][0]);
 	}
 	else det = 0 ; // invalid input
-	cout<<"Det = "<<det<<endl;
-	cout<<"Det = "<<det%26<<endl;
 	return(det % 26);
 }
 
@@ -78,6 +77,7 @@ void verify_2x2(int r,int c){
 		cout<<"Determinate is 0";
 		exit(0);
 	}
+	cout<<"Determinate ="<<findDet(key,r)<<endl<<endl;
 }
 
 int FindInverse(int r2,int r1=26){
@@ -193,12 +193,12 @@ void multiply(int P[][3],int k[3][3],int n)
 
 void encryption(int a2x2[][3],int key[3][3],int n){
 	multiply(a2x2,key,n);
-	cout<<"Encrypted text:"<<num_to_txt(a2x2,n)<<endl;
+	cout<<"Encrypted text:"<<num_to_txt(a2x2,n)<<endl<<endl;
 }
 
 void decryption(int a2x2[][3],int keyin[3][3], int n){
 	multiply(a2x2,keyin,n);
-	cout<<"Decrypted text:"<<num_to_txt(a2x2,n)<<endl;
+	cout<<"Decrypted text:"<<num_to_txt(a2x2,n)<<endl<<endl;
 }
 
 int main(){
@@ -227,15 +227,15 @@ int main(){
 		for(j=0;j<c;j++)
 			cin>>key[i][j];
 
-	verify_2x2(r,c);
-
 	encryption(a2x2,key,l);
 
 	//Decryption
 
+	verify_2x2(r,c);
+
 	inverse=FindInverse(findDet(key,r));
 
-	cout<<"The inverse is "<<inverse<<endl;
+	cout<<"The inverse is "<<inverse<<endl<<endl;
 	int adjoint[3][3];
 	find_adjoint(adjoint,r);
 
