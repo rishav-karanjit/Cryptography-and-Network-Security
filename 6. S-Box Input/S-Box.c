@@ -1,82 +1,77 @@
-#include<stdio.h>
-int l[32],r[32],er[48];
-int pc2_key[48]={
-				0,0,0,1,1,0,1,
-				1,0,0,0,0,0,0,
-				1,0,1,1,1,0,1,
-				1,1,1,1,1,1,1,
-				1,1,0,0,0,1,1,
-				1,0,0,0,0,0,1,
-				1,1,0,0,1,0
-			};
-int pt[64]={
-			0,0,0,0,0,0,0,1,
-			0,0,1,0,0,0,1,1,
-			0,1,0,0,0,1,0,1,
-			0,1,1,0,0,1,1,1,
-			1,0,0,0,1,0,0,1,
-			1,0,1,0,1,0,1,1,
-			1,1,0,0,1,1,0,1,
-			1,1,1,0,1,1,1,1
-		};
-int e_bit[8][6]={
-			32,1,2,3,4,5,
-			4,5,6,7,8,9,
-			8,9,10,11,12,13,
-			12,13,14,15,16,17,
-			16,17,18,19,20,21,
-			20,21,22,23,24,25,
-			24,25,26,27,28,29,
-			28,29,30,31,32,1
-		};
-void etable()
+#include <bits/stdc++.h>
+using namespace std;
+
+int expPermute[] = {
+	32, 1 , 2 , 3 , 4 , 5 ,
+	4 , 5 , 6 , 7 , 8 , 9 ,
+	8 , 9 , 10, 11, 12, 13,
+	12, 13, 14, 15, 16, 17,
+	16, 17, 18, 19, 20, 21,
+	20, 21, 22, 23, 24, 25,
+	24, 25, 26, 27, 28, 29,
+	28, 29, 30, 31, 32, 1 };
+
+string expansionPermute(string input)
 {
-	int i,j,k=0;
-	for(i=0;i<8;i++)
+	string res = "";
+	for(int i=0; i<48; i++)
 	{
-		for(j=0;j<6;j++)
-		{
-			er[k++]=r[e_bit[i][j]-1];
-		}
+		res += input[expPermute[i]-1];
 	}
+	return res;
 }
-void xor48()
+
+string XOR(string input1, string input2)
 {
-	int i;
-	for(i=0;i<48;i++)
+	string res = "";
+	for(int i=0; i<input1.length(); i++)
 	{
-		if(er[i]==pc2_key[i])
-			er[i]=0;
-		else
-			er[i]=1;
+		res += (input1[i] == input2[i]) ? "0" : "1";
 	}
+	return res;
 }
-void main()
+
+int main()
 {
-	int i,j,k=0;
-	//Left Division
-	for(i=0;i<32;i++)
-		l[i]=pt[i];
-	//Right Division
-	for(j=1;j<64;j++)
-		r[k++]=pt[j];
-	//EP table for Right
-	etable();
-	printf("\n48-bit input for S-box in the ith round of DES\n");
-	printf("\n after E-Table\n");
-	for(i=1;i<=48;i++){
-		printf("%d",er[i-1]);
-		if(i%8==0)
-			printf("");
+	int i; // round i
+	unsigned long long hexInput;
+	string Ki; // ith round key
+	ifstream fin;
+
+	cout << "\nEnter Round number (i) : ";
+	cin >> i;
+
+	cout << "Enter 64-bit (i-1)th round output in hex: " ;
+	cin >> hex >> hexInput;
+	string input = bitset<64>(hexInput).to_string();
+
+	fin.open("keygen.txt");
+	for(int j=1; j<=i; j++)
+	{
+		fin >> Ki;
 	}
-	printf("\n");
-	//XOR
-	xor48();
-	printf("\n after XOR-48:\n");
-	for(i=1;i<=48;i++){
-		printf("%d",er[i-1]);
-		if(i%8==0)
-			printf("");
+
+	// ---- To insert key manually uncomment below lines ---
+	// unsigned long long hexKey;
+	// cout << "Enter 48 bit key for ith round: " ;
+	// cin >> hex >> hexKey;
+	// Ki = bitset<48>(hexKey).to_string();
+
+	if(Ki.length() == 0)
+	{
+		cout << "\nkeygen.txt not found !!! \n" << endl;
+		exit(1);
 	}
-	printf("\n");
+
+	cout << "\n64-bit Binary Input = " << input << endl ;
+	cout << "key for ith round (Ki) = " << Ki << endl ;
+
+	string Ri_1 = input.substr(32,32); // 32 bit Right half of input R[i-1]
+	cout << "\nRight half of 64-bit input, Ri_1 = " << Ri_1 << endl;
+
+	string R48 = expansionPermute(Ri_1);
+	cout << "Ri_1 after expansion permutation = " << R48 << endl;
+
+	string sBoxInput = XOR(R48, Ki);
+	cout << "\nInput to s-box : " << sBoxInput << endl << endl;
 }
