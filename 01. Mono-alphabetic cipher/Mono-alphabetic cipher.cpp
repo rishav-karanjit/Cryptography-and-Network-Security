@@ -90,8 +90,8 @@ void showfrequencey(string plaintext,string ciphertext){
 			ptxtcnt[plaintext[i]-97]=0.0;
 			printf("\n%.1f\t\t%c\t\t%c",f,p,c);
 		}
-		
 	}
+	printf("\n");
 }
 
 int main()
