@@ -3,7 +3,7 @@ using namespace std;
 
 int randInRange(int low, int high) // excluding high and low
 {
-    return rand()%(high-(low+1)) + (low+1) ;
+    return(low + (rand()%(high-low+1)));
 }
 
 int genPrime3mod4()
