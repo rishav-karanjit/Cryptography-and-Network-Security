@@ -92,5 +92,9 @@ int main()
 
     // To check for multiple values of 'a' un-comment below line
     // for(int i=0; i<4; i++)
+    if(randNum % 2 == 0){
+    	cout<<"The random number is incremented by one since rabinMiller does not work for even integer > 2";
+    	randNum++;
+    }
     cout << rabinMiller(randNum) << endl ;
 }

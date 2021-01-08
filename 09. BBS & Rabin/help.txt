@@ -1,0 +1,10 @@
+large random prime number (p%4=3)
+large random prime number (q%4=3)
+n = p * q
+Select S (non-zero and relatively prime to n)
+x = (s * s) % n
+generate 10 bit output
+	x = (x * x) % n
+	B = B << 1 | x & 1
+
+Rabin Miller
