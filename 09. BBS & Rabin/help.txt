@@ -8,3 +8,9 @@ generate 10 bit output
 	B = B << 1 | x & 1
 
 Rabin Miller
+n-1 = 2^k * q
+	set q = n-1 (its easy to get the values)
+	q should be odd
+	find value of k
+a = randnum between 1 and n-1
+inconclusive
