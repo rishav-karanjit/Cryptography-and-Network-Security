@@ -1,15 +1,19 @@
+Program no:11   Date:08-12-2020
+11 Implement RSA algorithm to process blocks of plaintext (refer Figure 9.7 of the text book), where plaintext is a string of characters and let the block size be two characters. (Note: assign a unique code to each plain text character i.e., a=00, A=26). The program should support the following.
+(i) Accept string of characters as plaintext.
+(ii)    Encryption takes plaintext and produces ciphertext characters
+(iii)   Decryption takes ciphertext characters obtained in step ii and produces corresponding plaintext characters (iv) Display the result after each step.
+-------------------------------------------
+Server side:
+
 # include <bits/stdc++.h>
 # include <arpa/inet.h> 
 using namespace std;
 
 int createServer(int port)  // TCP connection
 {
-    //AF_INET (IPv4 protocol)
-    //SOCK_STREAM: TCP(reliable, connection oriented)
-    //protocol: Protocol value for Internet Protocol(IP), which is 0.
-    int sersock = socket(AF_INET, SOCK_STREAM, 0);    //socket(domain, type, protocol) 
-    //struct sockaddr_in {sin_family, sin_port,sin_addr}
-    struct sockaddr_in addr = {AF_INET, htons(port), INADDR_ANY}; 
+    int sersock = socket(AF_INET, SOCK_STREAM, 0);
+    struct sockaddr_in addr = {AF_INET, htons(port), INADDR_ANY};
 
     bind(sersock, (struct sockaddr *) &addr, sizeof(addr));
     cout << "\nServer Online. Waiting for client...." << endl;

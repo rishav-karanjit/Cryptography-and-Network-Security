@@ -1,6 +1,6 @@
-/*4. Write a program to perform encryption and decryption using 
-   transposition technique with column permutation given as key.  */
-
+Program no.4    Date:15-09-2020
+4.Write a program to perform encryption and decryption using transposition technique with column permutation given as key.
+-------------------------------------------
 #include<bits/stdc++.h>
 using namespace std ;
 
@@ -34,7 +34,7 @@ string encrypt(string pt , string key)
     {
         for(int j=0; j<num_row; j++)
         {
-            ct += mat[j][(int) key[i] - 49];
+            ct += mat[j][key.find(i+'1')];
         }
     }
     return ct;
@@ -53,7 +53,7 @@ string decrypt(string ct , string key)
     {
         for(int j=0; j<num_row; j++)
         {
-             mat[j][(int) key[i]-49] = ct[k++];
+             mat[j][key.find(i+'1')] = ct[k++];
         }
     }
 

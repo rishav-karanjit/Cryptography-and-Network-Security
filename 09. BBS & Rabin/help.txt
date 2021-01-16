@@ -1,7 +1,7 @@
 large random prime number (p%4=3)
 large random prime number (q%4=3)
 n = p * q
-Select S (non-zero and relatively prime to n)
+Select S (non-zero and relatively prime to n) while s%p==0 || s%q==0 || s==0
 x = (s * s) % n
 generate 10 bit output
 	x = (x * x) % n

@@ -1,0 +1,5 @@
+round number - Each line in keygen indicate key for each round number
+Output of i-1th output
+substr -> get last 32bit (right)
+expr permutation to right
+XOR expr permutation i/p and key

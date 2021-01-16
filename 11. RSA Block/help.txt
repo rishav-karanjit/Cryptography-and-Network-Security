@@ -1,0 +1,23 @@
+Client															Server
+
+p q
+n = p * q 
+phi = p-1 * q-1		
+e = randInRange(1, phi); while gcd(e, phi) != 1
+Find d such that (d*e)%phi == 1 and d<phi
+public key = {e, n}; 
+private key = {d, n};
+sent public key
+												recv public key
+										   		msg
+										   		if msg.length not even add filler
+										   		2msg block
+										   		msg*100 + (msg+1)
+										   		encrypt: C = M^e mod n
+										   		sent Cipher
+										   		at the end sent -1
+Recv cipher if cipher = -1 stop
+decrypt C^d mod n
+FFSS - First Second Char(do /100 %100)
+Concatenate msg
+												
