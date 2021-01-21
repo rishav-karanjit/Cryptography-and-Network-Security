@@ -36,27 +36,14 @@ long powermod(long a, long b, long  c)
     return res;
 }
 
-long findInverse(long R , long D)
+long findInverse(long a , long b)
 {
-    int i = 0;
-    long N = D; // copy D to N for taking mod 
-    long p[100] = {0,1};
-    long q[100] = {0} ;
-
-    while(R!=0)
-    {
-        q[i] = D/R ;
-        long oldD = D ;
-        D = R ;
-        R = oldD%R ;
-        if(i>1)
-        {
-            p[i] = mod(p[i-2] - p[i-1]*q[i-2], N) ;
-        }
-        i++ ;
-    }
-    if (i == 1) return 1;
-    else        return p[i] = mod(p[i-2] - p[i-1]*q[i-2], N) ;
+	a = a % b; 
+	for (long x = 1; x < b; x++){
+		if ((a * x) % b == 1) 
+			return x;
+	}
+	return 0;//Only for no warning
 }
 
 long H(long M) // Hash Function
