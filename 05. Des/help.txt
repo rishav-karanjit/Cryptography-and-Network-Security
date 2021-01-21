@@ -1,0 +1,6 @@
+permChoiceOne
+divide string (28-28) left-right
+for 16 round 
+	left circular rotate (left)
+	right circular rotate (right)
+	permChoiceTwo(left+right)

@@ -1,0 +1,17 @@
+CLIENT										SERVER
+q											q
+alpha										alpha
+client's private key (1<Xc<q)			
+client's public key:powermod(alpha, Xc, q)
+Send client's public key
+											receive client's public key
+											server's private key(1<Xs<q)
+											server's public key 			powermod(alpha, Xs, q);
+											Send public key to client
+receive server's public key
+
+Secret Key k = powermod(Ys,Xc,q)			k = Secret Key powermod(Yc,Xs,q)
+											Encryption: cipher = msg ^ k 				
+											Sent cipher
+receive cipher
+decryption: cipher ^ k
