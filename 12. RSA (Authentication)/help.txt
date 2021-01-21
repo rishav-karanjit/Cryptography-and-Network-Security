@@ -1,0 +1,19 @@
+Client													Server
+									ID
+									N1 = rand()%100
+									msg = N1*100+ID
+									Send Enc(PUc,[N1||ID])
+Recv Enc and Dec(PRc,[N1||ID])
+
+N2 = rand()%100
+msg = N1*100+N2
+Send Enc(msg,PUs)
+									Recv Enc and Dec(msg,PRs)
+									Client authentication (N1c == N1)
+
+									Send Enc(N2,PUc)
+recv Enc and Dec(msg,PRc)
+Server auth(N2 == N2s)
+									key
+									send Enc(Enc(key,PRs),PUc)
+recv Enc and Dec(Dec(key,PRc),PUs)

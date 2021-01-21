@@ -14,3 +14,6 @@ n-1 = 2^k * q
 	find value of k
 a = randnum between 1 and n-1
 inconclusive
+	(a ^ q) % n == 1
+	(a ^ (2 ^ j) * q) % n == 1
+composite

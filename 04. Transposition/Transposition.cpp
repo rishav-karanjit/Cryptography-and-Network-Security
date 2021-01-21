@@ -30,6 +30,7 @@ string encrypt(string pt , string key)
         }
         cout << endl;
     }
+    //Get Cipher (Extract rows according to key)
     for(int i=0; i<num_col; i++)
     {
         for(int j=0; j<num_row; j++)
@@ -48,7 +49,7 @@ string decrypt(string ct , string key)
     int num_row = ceil((float)ct.length() / key.length());
     int num_col = key.length();
     char mat[num_row][num_col];
-
+    //Generate matrix based on the key
     for(int i=0; i<num_col; i++)
     {
         for(int j=0; j<num_row; j++)
